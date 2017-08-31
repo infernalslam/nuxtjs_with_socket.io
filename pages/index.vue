@@ -1,14 +1,16 @@
 <template>
   <section class="container">
-    <img src="~assets/img/logo.png" alt="Nuxt.js Logo" class="logo" />
     <h1 class="title">
-      USERS
+      Client <br>
+      <input type="text" v-model="text">
+      <button @click="search()">+</button>
     </h1>
     <ul class="users">
-      <li v-for="(user, index) in users" :key="index" class="user">
-        <nuxt-link :to="{ name: 'id', params: { id: index }}">
-          {{ user.name }}
-        </nuxt-link>
+      <li v-for="(src, index) in list" :key="src.id.videoId" class="user">
+       ชื่อเรื่อง  {{ src.snippet.title }} <br>
+       รหัสวิดิโอ  {{ src.id.videoId }} <br>
+       <img :src="src.snippet.thumbnails.high.url" @click="submitForm(src)">
+       <hr>
       </li>
     </ul>
   </section>
@@ -16,15 +18,33 @@
 
 <script>
 import axios from '~/plugins/axios'
+import io from 'socket.io-client'
+// const socket = io()
 
 export default {
-  async asyncData () {
-    let { data } = await axios.get('/api/users')
-    return { users: data }
-  },
   head () {
     return {
-      title: 'Users'
+      title: 'Cilent'
+    }
+  },
+  data () {
+    return {
+      text: '',
+      list: [],
+      socket: null
+    }
+  },
+  async mounted () {
+    this.socket = await io.connect()
+  },
+  methods: {
+    search () {
+      axios.get(`/api/query?query=${this.text}`).then((res) => {
+        this.list = res.data.items
+      })
+    },
+    submitForm (src) {
+      this.socket.emit('add-list', `Hello`)
     }
   }
 }

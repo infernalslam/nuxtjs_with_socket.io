@@ -1,16 +1,45 @@
 import express from 'express'
 import { Nuxt, Builder } from 'nuxt'
-
-import api from './api'
+// youtube lib
+const YouTube = require('youtube-node')
+const youTube = new YouTube()
+youTube.setKey('AIzaSyDvwXUsN2hDGHCvrUeclxFFffgGLlGv8OE')
 
 const app = express()
 const host = process.env.HOST || '127.0.0.1'
 const port = process.env.PORT || 3000
 
+// socket.io
+const http = require('http').Server(app)
+// const server = require('http').createServer(app)
+const io = require('socket.io')(http)
+
 app.set('port', port)
 
 // Import API Routes
-app.use('/api', api)
+app.all('/*', function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With')
+  next()
+})
+
+app.get('/api/query', (req, res) => {
+  youTube.search(req.query.query, 50, (err, result) => {
+    if (err) res.status(500)
+    else res.send(JSON.stringify(result, null, 2))
+  })
+})
+
+// socket.io route
+io.on('connection', (socket) => {
+  console.log('a user connected : ' + socket.id)
+  socket.on('disconnect', () => {
+    console.log('user disconnected : ' + socket.id)
+  })
+  socket.on('add-list', (res) => {
+    console.log('text :', res)
+  })
+})
 
 // Import and Set Nuxt.js options
 let config = require('../nuxt.config.js')
@@ -29,5 +58,10 @@ if (config.dev) {
 app.use(nuxt.render)
 
 // Listen the server
-app.listen(port, host)
-console.log('Server listening on ' + host + ':' + port) // eslint-disable-line no-console
+http.listen(3000, () => {
+  console.log('listening on *:3000')
+})
+// http.listen(port, host)
+// console.log('Server listening on localhost:' + port)
+// app.listen(port, host)
+// console.log('Server listening on ' + host + ':' + port) // eslint-disable-line no-console
