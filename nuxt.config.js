@@ -21,7 +21,7 @@ module.exports = {
   ** Add axios globally
   */
   build: {
-    vendor: ['axios'],
+    vendor: ['axios', 'vue-youtube-embed'],
     /*
     ** Run ESLINT on save
     */
@@ -35,5 +35,8 @@ module.exports = {
         })
       }
     }
-  }
+  },
+  plugins: [
+    { src: '~plugins/vue-youtube-embed.js', ssr: false }
+  ]
 }

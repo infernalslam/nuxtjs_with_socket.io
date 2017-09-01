@@ -4,7 +4,10 @@
     <h1 class="title">
       Server
     </h1>
+    <div><youtube :video-id="id" :player-vars="{autoplay: 1}"></youtube></div>
     <ul class="users">
+    <br> 
+    LIST :
     <div v-for="(src, i) in data" :key="src.id">
        ชื่อเรื่อง  {{ src.title }} <br>
        รหัสวิดิโอ  {{ src.id }} <br>
@@ -27,7 +30,8 @@ export default {
   data () {
     return {
       socket: null,
-      data: []
+      data: [],
+      id: 'kSEHbNMwumA'
     }
   },
   async mounted () {
