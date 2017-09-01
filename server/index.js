@@ -6,6 +6,10 @@ const youTube = new YouTube()
 youTube.setKey('AIzaSyDvwXUsN2hDGHCvrUeclxFFffgGLlGv8OE')
 
 const app = express()
+// bodyparser
+// var bodyParser = require('body-parser')
+// app.use(bodyParser.urlencoded({ extended: false }))
+// app.use(bodyParser.json())
 const host = process.env.HOST || '127.0.0.1'
 const port = process.env.PORT || 3000
 
@@ -23,6 +27,8 @@ app.all('/*', function (req, res, next) {
   next()
 })
 
+// store
+let playlist = []
 app.get('/api/query', (req, res) => {
   youTube.search(req.query.query, 50, (err, result) => {
     if (err) res.status(500)
@@ -37,7 +43,8 @@ io.on('connection', (socket) => {
     console.log('user disconnected : ' + socket.id)
   })
   socket.on('add-list', (res) => {
-    console.log('text :', res)
+    playlist.push(res)
+    socket.broadcast.emit('now-playlist', playlist)
   })
 })
 
@@ -59,7 +66,7 @@ app.use(nuxt.render)
 
 // Listen the server
 http.listen(3000, () => {
-  console.log('listening on *:3000')
+  console.log(`listening on ${host}:3000`)
 })
 // http.listen(port, host)
 // console.log('Server listening on localhost:' + port)

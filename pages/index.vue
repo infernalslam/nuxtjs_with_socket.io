@@ -44,7 +44,12 @@ export default {
       })
     },
     submitForm (src) {
-      this.socket.emit('add-list', `Hello`)
+      let data = {
+        id: src.id.videoId,
+        title: src.snippet.title,
+        img: src.snippet.thumbnails.high.url
+      }
+      this.socket.emit('add-list', data)
     }
   }
 }
