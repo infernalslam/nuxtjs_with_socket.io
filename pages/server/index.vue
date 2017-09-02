@@ -1,8 +1,12 @@
 <template>
   <div>
-    <div class="layout">
-      <div class="left">1</div>
-      <div class="right">2</div>
+    <div>
+        <iframe
+          width="420"
+          height="315"
+          :src=" 'https://www.youtube.com/embed/' + id + '?autoplay=1' "
+          frameborder="0"
+          allowfullscreen />
     </div>
   </div>
 </template>
@@ -18,36 +22,36 @@ export default {
   data () {
     return {
       socket: null,
-      data: [],
+      // data: [],
       id: '4OrCA1OInoo'
     }
   },
   async mounted () {
     this.socket = await io.connect()
     this.socket.on('now-playlist', (res) => {
-      this.data = res
+      this.id = res.id
+      console.log(this.id)
     })
   }
 }
 </script>
 
 <style scoped>
-.layout {
-  background-color: black;
-}
-.left {
-  background-color: red;
-  display: inline-block;
-  width: 20%;
-  height: 100vh;
-}
-.right {
-  background-color: green;
-  display: inline-block;
-  height: 100vh;
-  width: 80%;
+iframe {
+position: fixed;
+right: 0;
+bottom: 0;
+min-width: 100%;
+min-height: 100%;
+width: auto;
+height: auto;
+z-index: -100;
+/*background: url('/assets/images/polina.jpg') no-repeat;*/
+background-size: cover;
 }
 </style>
+
+<!-- <youtube id="youtube" :video-id="id" :player-vars="{autoplay: 1}" :player-width="1440" :player-heigh="900"  ></youtube> -->
 
 <!-- <div class="container">
   <youtube :video-id="id" :player-vars="{autoplay: 1}"   player-width="100%" player-heigh="100%" ></youtube>

@@ -28,7 +28,7 @@ app.all('/*', function (req, res, next) {
 })
 
 // store
-let playlist = []
+// let playlist = []
 app.get('/api/query', (req, res) => {
   youTube.search(req.query.query, 50, (err, result) => {
     if (err) res.status(500)
@@ -43,8 +43,8 @@ io.on('connection', (socket) => {
     console.log('user disconnected : ' + socket.id)
   })
   socket.on('add-list', (res) => {
-    playlist.push(res)
-    socket.broadcast.emit('now-playlist', playlist)
+    // playlist.push(res)
+    socket.broadcast.emit('now-playlist', res)
   })
 })
 
