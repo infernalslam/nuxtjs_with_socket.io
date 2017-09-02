@@ -4,6 +4,8 @@ import { Nuxt, Builder } from 'nuxt'
 const YouTube = require('youtube-node')
 const youTube = new YouTube()
 youTube.setKey('AIzaSyDvwXUsN2hDGHCvrUeclxFFffgGLlGv8OE')
+// get ip
+const internalIp = require('internal-ip')
 
 const app = express()
 // bodyparser
@@ -27,12 +29,18 @@ app.all('/*', function (req, res, next) {
   next()
 })
 
-// store
-// let playlist = []
+// query data form youTube
 app.get('/api/query', (req, res) => {
   youTube.search(req.query.query, 50, (err, result) => {
     if (err) res.status(500)
     else res.send(JSON.stringify(result, null, 2))
+  })
+})
+
+// ip route
+app.get(`/api/route`, (req, res) => {
+  internalIp.v4().then(async (ip) => {
+    res.send(ip)
   })
 })
 
@@ -43,7 +51,6 @@ io.on('connection', (socket) => {
     console.log('user disconnected : ' + socket.id)
   })
   socket.on('add-list', (res) => {
-    // playlist.push(res)
     socket.broadcast.emit('now-playlist', res)
   })
 })

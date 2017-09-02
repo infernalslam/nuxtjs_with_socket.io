@@ -15,6 +15,7 @@
     "axios": "^0.16.2",
     "cross-env": "^5.0.1",
     "express": "^4.15.3",
+    "internal-ip": "^2.0.2",
     "nuxt": "^1.0.0-rc3",
     "socket.io": "^2.0.3",
     "socket.io-client": "^2.0.3",
