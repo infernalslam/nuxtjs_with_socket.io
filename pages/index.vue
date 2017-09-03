@@ -1,5 +1,29 @@
 <template>
-  <section class="container">
+  <div>
+    <el-row :gutter="20">
+      <el-col :span="12" :offset="6">
+        <div class="grid-content">
+          Client <br>
+          <el-input
+          placeholder="Search clip"
+          icon="search"
+          v-model="text" />
+          <el-button type="primary" @click="search()">Search</el-button>
+        </div>
+      </el-col>
+      <el-col :span="12">
+        <ul class="users">
+          <li v-for="(src, index) in list" :key="src.id.videoId" class="user">
+           ชื่อเรื่อง  {{ src.snippet.title }} <br>
+           รหัสวิดิโอ  {{ src.id.videoId }} <br>
+           <img :src="src.snippet.thumbnails.high.url" @click="submitForm(src)">
+           <hr>
+          </li>
+        </ul>
+      </el-col>
+    </el-row>
+  </div>
+  <!-- <section class="container">
     <h1 class="title">
       Client <br>
       <input type="text" v-model="text">
@@ -13,7 +37,7 @@
        <hr>
       </li>
     </ul>
-  </section>
+  </section> -->
 </template>
 
 <script>
