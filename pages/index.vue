@@ -23,21 +23,6 @@
       </el-col>
     </el-row>
   </div>
-  <!-- <section class="container">
-    <h1 class="title">
-      Client <br>
-      <input type="text" v-model="text">
-      <button @click="search()">+</button>
-    </h1>
-    <ul class="users">
-      <li v-for="(src, index) in list" :key="src.id.videoId" class="user">
-       ชื่อเรื่อง  {{ src.snippet.title }} <br>
-       รหัสวิดิโอ  {{ src.id.videoId }} <br>
-       <img :src="src.snippet.thumbnails.high.url" @click="submitForm(src)">
-       <hr>
-      </li>
-    </ul>
-  </section> -->
 </template>
 
 <script>
