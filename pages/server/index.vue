@@ -1,16 +1,7 @@
 <template>
   <div>
-    <div>
-      <div v-if=" id === '' ">
-        {{ ip }} :3000
-      </div>
-        <iframe v-if=" id !== '' "
-          width="420"
-          height="315"
-          :src=" 'https://www.youtube.com/embed/' + id + '?autoplay=1' "
-          frameborder="0"
-          allowfullscreen />
-    </div>
+     {{ ip }} :3000
+      <youtube :video-id="id" player-width="1280" player-height="750" :player-vars="{autoplay: 1}"></youtube>
   </div>
 </template>
 
